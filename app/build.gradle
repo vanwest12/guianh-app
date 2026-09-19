@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'vn.guianh'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "vn.guianh"
+        minSdk 29            // Android 10 trở lên (cần cho việc ghi thẳng vào album)
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+
+    // Khoá ký này KHÔNG phải bí mật. Nó chỉ để Android nhận ra các bản cập
+    // nhật sau là "cùng một app", nhờ đó bạn cài đè lên bản cũ được mà không
+    // phải gỡ đi. Ai có khoá này cũng không làm gì được với máy bạn.
+    signingConfigs {
+        release {
+            storeFile file("../guianh.keystore")
+            storePassword "guianh"
+            keyAlias "guianh"
+            keyPassword "guianh"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // App không dùng thư viện ngoài nào — cố ý để lại phần dependencies trống.
+}
+
+dependencies {
+}

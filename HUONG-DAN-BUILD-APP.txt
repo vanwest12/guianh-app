@@ -1,0 +1,164 @@
+=============================================================
+  BUILD APP ANDROID "GuiAnh" — không cần cài gì lên máy
+=============================================================
+
+Bạn sẽ nhờ máy chủ của GitHub build hộ file APK. Tổng cộng
+khoảng 15 phút, phần lớn là ngồi chờ máy nó chạy.
+
+Thứ đi lên GitHub chỉ là MÃ NGUỒN CHƯƠNG TRÌNH. Không có ảnh,
+không có mã PIN, không có dữ liệu gì của bạn. Và kho để chế độ
+riêng tư nên không ai ngoài bạn xem được.
+
+
+-------------------------------------------------------------
+PHẦN 1 — TẠO KHO CHỨA (2 phút)
+-------------------------------------------------------------
+
+1. Vào  https://github.com  -> bấm "Sign up" tạo tài khoản
+   miễn phí (nếu chưa có). Chỉ cần email và mật khẩu.
+
+2. Đăng nhập xong, bấm dấu "+" góc trên bên phải
+   -> "New repository".
+
+3. Điền:
+      Repository name:  guianh-app
+      Chọn:             Private        <<< QUAN TRỌNG, chọn Private
+      KHÔNG tích "Add a README file"
+
+4. Bấm "Create repository".
+
+
+-------------------------------------------------------------
+PHẦN 2 — TẢI MÃ NGUỒN LÊN (3 phút)
+-------------------------------------------------------------
+
+5. Giải nén file GuiAnh-android.zip ra một thư mục.
+   Bạn sẽ thấy bên trong có: app, gradle, .github,
+   build.gradle, settings.gradle, gradlew, guianh.keystore...
+
+6. Ở trang kho vừa tạo, bấm "uploading an existing file"
+   (dòng chữ xanh giữa trang). Nếu không thấy, bấm
+   "Add file" -> "Upload files".
+
+7. Mở thư mục vừa giải nén, chọn TẤT CẢ (Ctrl+A) rồi kéo thả
+   vào khung trên trang web.
+
+   >>> KIỂM TRA: trong danh sách file hiện lên, bạn PHẢI thấy
+   >>> dòng có chữ  .github/workflows/build-apk.yml
+   >>> Nếu KHÔNG thấy, làm theo "CÁCH DỰ PHÒNG" ở cuối bài.
+
+8. Kéo xuống dưới, bấm nút xanh "Commit changes".
+
+
+-------------------------------------------------------------
+PHẦN 3 — CHỜ MÁY BUILD (5-10 phút)
+-------------------------------------------------------------
+
+9. Bấm tab "Actions" ở thanh trên cùng.
+
+10. Bạn sẽ thấy một dòng đang chạy, có vòng tròn vàng quay quay.
+    Bấm vào nó để xem tiến độ. Chờ tới khi thành dấu tích XANH.
+
+    Nếu ra dấu X ĐỎ: bấm vào bước bị đỏ, chụp màn hình phần chữ
+    lỗi rồi gửi cho tôi. Đây là chuyện bình thường ở lần đầu, tôi
+    sẽ sửa.
+
+11. Khi xong, kéo xuống cuối trang, mục "Artifacts" có file
+    "GuiAnh-APK". Bấm vào để tải về máy tính.
+
+12. Tải về được một file .zip. Giải nén ra sẽ có GuiAnh.apk
+
+
+-------------------------------------------------------------
+PHẦN 4 — CÀI LÊN ĐIỆN THOẠI (3 phút)
+-------------------------------------------------------------
+
+13. Chuyển file GuiAnh.apk sang điện thoại.
+    Mẹo: dùng luôn GuiAnh trên máy tính! Kéo thả file .apk vào
+    trang, rồi trên điện thoại bấm "Tải về".
+
+14. Trên điện thoại, mở file GuiAnh.apk vừa tải.
+    Android sẽ hỏi cho phép cài từ nguồn không xác định
+    -> bật cho trình duyệt (hoặc app Quản lý tệp) -> quay lại
+    -> bấm "Cài đặt".
+
+15. Mở app GuiAnh vừa cài. Bấm "Tự tìm máy tính trong mạng".
+    Nó quét vài giây rồi hiện địa chỉ máy tính của bạn.
+
+16. Nhập mã PIN bạn đã đặt trên máy tính -> bấm "Kết nối".
+
+
+-------------------------------------------------------------
+PHẦN 5 — DÙNG
+-------------------------------------------------------------
+
+Giữ một tấm ảnh bất kỳ trong thư viện -> bấm Chia sẻ
+-> chọn GuiAnh. Ảnh bay thẳng sang máy tính, app tự đóng lại.
+
+Chọn nhiều ảnh cùng lúc cũng được. Chia sẻ video, PDF, đường
+link cũng được.
+
+Máy tính phải đang mở GuiAnh và cùng một WiFi.
+
+
+-------------------------------------------------------------
+APP NÀY XIN NHỮNG QUYỀN GÌ
+-------------------------------------------------------------
+
+Chỉ hai quyền, cả hai đều về mạng:
+    INTERNET               - để gửi file sang máy tính
+    ACCESS_NETWORK_STATE   - để biết có đang nối WiFi không
+
+KHÔNG xin quyền đọc ảnh, đọc bộ nhớ, vị trí, danh bạ, micro,
+camera hay bất cứ thứ gì khác. Ảnh được Android trao cho app
+ngay lúc bạn bấm Chia sẻ, đúng tấm đó thôi, nên app không cần
+quyền lục thư viện.
+
+App không dùng một thư viện của bên thứ ba nào. Toàn bộ mã nằm
+trong 3 file Java bạn đọc được:
+    Prefs.java         (23 dòng)  - nhớ địa chỉ máy tính
+    Net.java                      - gửi file, dò tìm máy
+    MainActivity.java             - màn hình và nút bấm
+
+
+-------------------------------------------------------------
+VỀ FILE guianh.keystore
+-------------------------------------------------------------
+
+Đây là khoá ký app, KHÔNG phải bí mật gì cả. Android bắt buộc
+mọi app phải được ký thì mới cài được. Khoá này chỉ để Android
+nhận ra các bản cập nhật sau là "cùng một app", nhờ đó bạn cài
+đè lên bản cũ mà không phải gỡ đi.
+
+Mật khẩu của nó nằm công khai trong file app/build.gradle. Điều
+đó hoàn toàn bình thường với app cá nhân — ai có khoá này cũng
+không làm gì được máy hay dữ liệu của bạn.
+
+
+-------------------------------------------------------------
+CÁCH DỰ PHÒNG (nếu bước 7 không thấy .github)
+-------------------------------------------------------------
+
+Một số máy ẩn thư mục bắt đầu bằng dấu chấm. Làm thế này:
+
+a. Cứ tải các file còn lại lên bình thường, bấm Commit changes.
+
+b. Ở trang chính của kho, bấm "Add file" -> "Create new file".
+
+c. Ở ô tên file, gõ CHÍNH XÁC (có cả dấu chấm đầu):
+       .github/workflows/build-apk.yml
+   Gõ tới dấu "/" thứ hai GitHub sẽ tự tạo thư mục cho bạn.
+
+d. Mở file build-apk.yml trong thư mục đã giải nén (dùng
+   Notepad), chép toàn bộ nội dung, dán vào ô lớn trên web.
+
+e. Bấm "Commit changes". Xong, quay lại Phần 3.
+
+
+-------------------------------------------------------------
+NẾU MUỐN SỬA APP SAU NÀY
+-------------------------------------------------------------
+
+Báo tôi, tôi gửi file mới. Bạn vào kho trên GitHub, tải file mới
+đè lên chỗ cũ, máy nó tự build lại và cho bạn APK mới. Cài đè
+lên bản cũ được luôn, không cần gỡ.

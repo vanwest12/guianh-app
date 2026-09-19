@@ -1,0 +1,4 @@
+// Không khai báo plugin ở đây; mỗi module tự khai (xem app/build.gradle)
+plugins {
+    id 'com.android.application' version '8.5.2' apply false
+}
