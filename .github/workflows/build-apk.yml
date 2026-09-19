@@ -1,0 +1,53 @@
+name: Build APK
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lay ma nguon
+        uses: actions/checkout@v4
+
+      - name: Cai Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Xem bo cong cu Android co san
+        run: |
+          echo "ANDROID_HOME = $ANDROID_HOME"
+          echo "--- platforms ---"
+          ls "$ANDROID_HOME/platforms" || echo "(khong co)"
+          echo "--- build-tools ---"
+          ls "$ANDROID_HOME/build-tools" || echo "(khong co)"
+
+      - name: Bo sung SDK 34 neu thieu
+        continue-on-error: true
+        run: |
+          SDKM="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ -x "$SDKM" ]; then
+            yes | "$SDKM" --licenses > /dev/null 2>&1 || true
+            "$SDKM" "platforms;android-34" "build-tools;34.0.0" || true
+          fi
+
+      - name: Build APK
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Dat ten file cho de nhan
+        run: |
+          mkdir -p out
+          cp app/build/outputs/apk/release/app-release.apk out/GuiAnh.apk
+          ls -la out/
+
+      - name: Nop file APK de tai ve
+        uses: actions/upload-artifact@v4
+        with:
+          name: GuiAnh-APK
+          path: out/GuiAnh.apk
+          retention-days: 90
